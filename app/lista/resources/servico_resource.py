@@ -5,35 +5,35 @@ from lista.schemas.servico_schema import ServicoSchema
 
 class ServicoResource(Resource):
 	parser = reqparse.RequestParser()
-	parser.add_argument('cliente',
-						type=str,
+	parser.add_argument('id_cliente',
+						type=int,
 						required=True,
-						help="O nome do cliente não pode estar em branco."
+						help="O id do cliente não pode estar em branco."
 						)
-	parser.add_argument('fornecedor',
-						type=str,
+	parser.add_argument('id_fornecedor',
+						type=int,
 						required=True,
-						help="O nome do fornecedor não pode estar em branco."
+						help="O id do fornecedor não pode estar em branco."
 						)
 	parser.add_argument('servico',
 						type=str,
 						required=True,
 						help="O serviço não pode estar em branco."
 						)                                                    
-	parser.add_argument("contato_funcionario",
-						type=int,
+	parser.add_argument('contato_fornecedor',
+						type=str,
 						required=True,
-						help="O contato_funcionario não pode estar em branco."
+						help="O contato_fornecedor não pode estar em branco."
 						)
 	parser.add_argument('contato_cliente',
 						type=str,
 						required=True,
 						help="O contato_cliente não pode estar em branco."
 						)
-	parser.add_argument('rank',
-						type=int,
+	parser.add_argument('data',
+						type=str,
 						required=True,
-						help="O rank não pode estar em branco."
+						help="A data não pode estar em branco."
 						)
 
 	def get(self, item):
@@ -70,7 +70,7 @@ class ServicoResource(Resource):
 			item = ServicoModel.encontrar_pelo_id(item)
 			if item:
 				item.remover()
-				lista = ServicoModel.listar()
+				lista = ServicoModel.listar(0, 1)
 				schema = ServicoSchema(many=True,exclude=['listas'])
 				json = schema.dump(lista).data
 			else:
@@ -105,10 +105,13 @@ class ServicosResource(Resource):
 		json = []
 		args = request.args
 		try:
-			idUsuario, tipo = 0, 0
 			if "id" in args and "tipo" in args: 
+				idUsuario, tipo = 0, 0
 				idUsuario, tipo = args['id'], args['tipo']
-			itens = ServicoModel.listar(idUsuario, tipo)
+				itens = ServicoModel.listar(idUsuario, tipo)
+			else:
+				itens = ServicoModel.listar(0, 1)
+			
 			schema = ServicoSchema(many=True,exclude=['listas'])
 			json = schema.dump(itens).data
 		except Exception as e:

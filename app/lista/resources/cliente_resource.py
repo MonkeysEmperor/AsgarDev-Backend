@@ -64,16 +64,11 @@ class ClienteResource(Resource):
 			if not data:
 				return {"message": "Requisição sem JSON"}, 400
 
-			if ClienteModel.encontrar_pelo_nome(data['empresa']):
-				return {"message": "Usuário ja existe"}, 400
-			else:
-				usuario = ClienteModel(**data)
-				usuario.adicionar()
-				usuario = ClienteModel.encontrar_pelo_nome(data['empresa'])
-
-				user_schema = ClienteSchema(exclude=['listas'])
-				json = user_schema.dump(usuario).data
-				return json, 201
+			usuario = ClienteModel(**data)
+			usuario.adicionar()
+			schema = ClienteSchema(exclude=['listas'])
+			json = schema.dump(usuario).data
+			return json, 201
 
 		except Exception as ex:
 			print(ex)
@@ -91,9 +86,8 @@ class ClienteResource(Resource):
 				return {"message": "Usuário não existe"}, 400
 			else:
 				usuario.modificar(item, data)
-				usuario = ClienteModel.encontrar_pelo_id(item)
-				user_schema = ClienteSchema(exclude=['listas'])
-				json = user_schema.dump(usuario).data
+				schema = ClienteSchema(exclude=['listas'])
+				json = schema.dump(usuario).data
 				return json, 201
 
 		except Exception as ex:

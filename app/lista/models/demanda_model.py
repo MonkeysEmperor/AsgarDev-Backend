@@ -37,8 +37,12 @@ class DemandaModel(Base):
 		return cls.query.filter_by(id=_id).first()
 
 	@classmethod
+	def encontrar_pelo_email(cls, _email):
+		return cls.query.filter_by(email=_email).first()
+
+	@classmethod
 	def listar(cls, _id):
-		if _id == 0:
+		if _id == 1:
 			return cls.query.all()
 		return cls.query.filter_by(cliente_id = _id)
 

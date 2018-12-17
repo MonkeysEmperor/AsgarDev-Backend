@@ -13,16 +13,14 @@ class ServicoModel(Base):
 	data = db.Column(db.DateTime)
 	data_criacao = db.Column(db.DateTime)
 
-	def __init__(self, id_cliente, id_fornecedor, cliente, fornecedor, servico, contato_fornecedor, contato_cliente, data):
+	def __init__(self, id_cliente, id_fornecedor, servico, contato_fornecedor, contato_cliente, data):
 		self.id_cliente = id_cliente
 		self.id_fornecedor = id_fornecedor
-		self.cliente = cliente
-		self.fornecedor = fornecedor
 		self.servico = servico
-		self.rank = 0
+		self.rank = 0	
 		self.contato_fornecedor = contato_fornecedor
 		self.contato_cliente = contato_cliente
-		self.data = data
+		self.data = datetime.strptime(data, '%d/%m/%Y')
 		self.data_criacao = datetime.now()
 
 	def adicionar(self):
@@ -32,8 +30,6 @@ class ServicoModel(Base):
 	@classmethod
 	def modificar(cls, _id, data):
 		newItem = cls.query.filter_by(id=_id).first()
-		newItem.cliente = data['cliente']
-		newItem.fornecedor = data['fornecedor']
 		newItem.servico = data['servico']
 		newItem.rank = data['rank']
 		newItem.contato_fornecedor = data['contato_fornecedor']

@@ -42,8 +42,7 @@ class ClienteModel(Base):
 		newItem.nome = data['nome'] 
 		newItem.endereco = data['endereco'] 
 		newItem.cnpj = data['cnpj'] 
-		newItem.tipo = data['tipo'] 
-		newItem.ativo = data['ativo'] 
+		newItem.tipo = data['tipo']
 		db.session.commit()		
 
 	@classmethod
@@ -51,8 +50,8 @@ class ClienteModel(Base):
 		return cls.query.filter_by(id=_id).first()
 
 	@classmethod
-	def encontrar_pelo_nome(cls, nome):
-		return cls.query.filter_by(nome=nome).first()
+	def encontrar_pelo_email(cls, _email):
+		return cls.query.filter_by(email=_email).first()
 
 	@classmethod
 	def listar(cls):

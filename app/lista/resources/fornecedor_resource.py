@@ -43,7 +43,7 @@ class FornecedorResource(Resource):
 						)                                                
 	parser.add_argument('ativo',
 						type=datetime,
-						required=True,
+						required=False,
 						help="O endereco não pode estar em branco."
 						)
 	parser.add_argument('servico',
@@ -78,16 +78,12 @@ class FornecedorResource(Resource):
 			if not data:
 				return {"message": "Requisição sem JSON"}, 400
 
-			if FornecedorModel.encontrar_pelo_nome(data['empresa']):
-				return {"message": "Usuário ja existe"}, 400
-			else:
-				usuario = FornecedorModel(**data)
-				usuario.adicionar()
-				usuario = FornecedorModel.encontrar_pelo_nome(data['empresa'])
+			usuario = FornecedorModel(**data)
+			usuario.adicionar()
 
-				user_schema = FornecedorSchema(exclude=['listas'])
-				json = user_schema.dump(usuario).data
-				return json, 201
+			user_schema = FornecedorSchema(exclude=['listas'])
+			json = user_schema.dump(usuario).data
+			return json, 201
 
 		except Exception as ex:
 			print(ex)

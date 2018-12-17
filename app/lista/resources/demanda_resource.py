@@ -64,7 +64,7 @@ class DemandaResource(Resource):
 			if demanda:
 				demanda.remover() 				
 			else:
-				return {"message": "Demanda de id {} não existe".format(item)},404
+				return {"message":"Demanda de id {} não existe".format(item)},404
 		except Exception as e:
 			print(e)
 			return {"message","Erro na requisição {}".format(item)},500
@@ -100,8 +100,9 @@ class DemandasResource(Resource):
 			idCliente = 0
 			if "id" in args:
 				idCliente = args['id']
-			print(idCliente)
-			itens = DemandaModel.listar(idCliente) 
+				itens = DemandaModel.listar(idCliente) 
+			else:
+				itens = DemandaModel.listar(1)
 			schema = DemandaSchema(many=True, exclude=['listas'])
 			json = schema.dump(itens).data
 		except Exception as e:
