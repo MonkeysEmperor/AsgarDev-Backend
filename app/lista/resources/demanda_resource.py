@@ -64,7 +64,7 @@ class DemandaResource(Resource):
 			if demanda:
 				demanda.remover() 				
 			else:
-				return {"message":"Demanda de id {} não existe".format(item)},404
+				return {"message": "Demanda de id {} não existe".format(item)},404
 		except Exception as e:
 			print(e)
 			return {"message","Erro na requisição {}".format(item)},500

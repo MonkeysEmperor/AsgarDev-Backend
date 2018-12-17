@@ -38,7 +38,7 @@ class DemandaModel(Base):
 
 	@classmethod
 	def listar(cls, _id):
-		if args == 0:
+		if _id == 0:
 			return cls.query.all()
 		return cls.query.filter_by(cliente_id = _id)
 
